@@ -8,7 +8,7 @@ from database import async_session, User, ensure_user
 router = Router()
 
 # СЮДА ВПИШИ СВОЙ ID (и ID других Главных Админов через запятую)
-SUPER_ADMINS = [123456789] 
+SUPER_ADMINS = [8738900554] 
 
 # Список всех рангов проекта
 RANKS = [
