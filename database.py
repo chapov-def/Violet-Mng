@@ -15,7 +15,8 @@ class User(Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     username: Mapped[str | None] = mapped_column(String(64), nullable=True)
-    role: Mapped[str] = mapped_column(String(32), default="Игрок") # Игрок, Хелпер, Админ, Куратор
+    first_name: Mapped[str] = mapped_column(String(128), default="") # <-- ДОБАВИЛ ИМЯ
+    role: Mapped[str] = mapped_column(String(32), default="Игрок") # Игрок, Ютубер, Модератор и т.д.
     warns: Mapped[int] = mapped_column(Integer, default=0) # Выговоры
     is_muted: Mapped[bool] = mapped_column(Boolean, default=False)
     is_banned: Mapped[bool] = mapped_column(Boolean, default=False)
@@ -27,7 +28,8 @@ async def init_db():
 async def ensure_user(session, tg_user):
     user = await session.get(User, tg_user.id)
     if not user:
-        user = User(id=tg_user.id, username=tg_user.username, username=tg_user.full_name)
+        # Исправленная строка (теперь first_name, а не второй username)
+        user = User(id=tg_user.id, username=tg_user.username, first_name=tg_user.full_name)
         session.add(user)
         await session.commit()
     return user
